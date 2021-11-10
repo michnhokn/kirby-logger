@@ -1,0 +1,27 @@
+{
+  "name": "michnhokn/kirby3-logger",
+  "description": "Add a logger to your Kirby3 website",
+  "type": "kirby-plugin",
+  "version": "0.9.0",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Michael Scheurich",
+      "email": "support@michaelscheurich.dev"
+    }
+  ],
+  "keywords": [
+    "kirby3",
+    "kirby3-cms",
+    "kirby3-plugin",
+    "logger",
+    "website-log",
+    "user-log"
+  ],
+  "config": {
+    "optimize-autoloader": true
+  },
+  "require": {
+    "getkirby/composer-installer": "^1.1"
+  }
+}
