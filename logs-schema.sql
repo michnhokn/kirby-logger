@@ -4,7 +4,9 @@ CREATE TABLE IF NOT EXISTS logs
     type      TEXT NOT NULL,
     action    TEXT NOT NULL,
     user      TEXT NULL,
-    old       TEXT NOT NULL,
-    new       TEXT NOT NULL,
+    slug      TEXT NOT NULL,
+    language  TEXT NOT NULL,
+    oldData   TEXT NULL,
+    newData   TEXT NOT NULL,
     timestamp TEXT NOT NULL DEFAULT current_timestamp
 );

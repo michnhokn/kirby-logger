@@ -11,8 +11,23 @@ require_once __DIR__ . '/src/Logger.php';
             Logger::log($event);
         },
     ],
+    'api' => [
+        'routes' => [
+            [
+                'pattern' => 'logs.json',
+                'method' => 'POST',
+                'action' => function () {
+                    return Logger::logs(
+                        $this->requestBody('page', 1),
+                        $this->requestBody('limit', 10),
+                        $this->requestBody('filter', [])
+                    );
+                },
+            ],
+        ],
+    ],
     'areas' => [
-        'kirby3-logger' => function ($kirby) {
+        'kirby3-logger' => function () {
             return [
                 'label' => 'Logger',
                 'icon' => 'table',
@@ -25,9 +40,6 @@ require_once __DIR__ . '/src/Logger.php';
                             return [
                                 'component' => 'k-logger-area',
                                 'title' => 'Logs',
-                                'props' => [
-                                    'logs' => Logger::logs(),
-                                ],
                             ];
                         },
                     ],
