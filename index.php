@@ -1,14 +1,42 @@
 <?php
 
-require_once __DIR__ . '/src/Logger.php';
+@include_once __DIR__ . '/vendor/autoload.php';
 
 \Kirby\Cms\App::plugin('michnhokn/logger', [
+    'translations' => [
+        'en' => [
+            'michnhokn.logger.title' => 'Logger',
+            'michnhokn.logger.logs' => 'Logs',
+            'michnhokn.logger.reset' => 'Reset filter',
+            'michnhokn.logger.type' => 'Type',
+            'michnhokn.logger.action' => 'Action',
+            'michnhokn.logger.slug' => 'Slug',
+            'michnhokn.logger.old' => 'Old data',
+            'michnhokn.logger.searchOld' => 'Search old data',
+            'michnhokn.logger.new' => 'New data',
+            'michnhokn.logger.searchNew' => 'Search new data',
+            'michnhokn.logger.empty' => 'No log entries yet',
+        ],
+        'de' => [
+            'michnhokn.logger.title' => 'Logger',
+            'michnhokn.logger.logs' => 'Logs',
+            'michnhokn.logger.reset' => 'Filter zurücksetzten',
+            'michnhokn.logger.type' => 'Typ',
+            'michnhokn.logger.action' => 'Aktion',
+            'michnhokn.logger.slug' => 'Slug',
+            'michnhokn.logger.old' => 'Alte Daten',
+            'michnhokn.logger.searchOld' => 'Alte Daten durchsuchen',
+            'michnhokn.logger.new' => 'Neue Daten',
+            'michnhokn.logger.searchNew' => 'Neue Daten durchsuchen',
+            'michnhokn.logger.empty' => 'Bisher keine Log Einträge',
+        ],
+    ],
     'hooks' => [
         'system.loadPlugins:after' => function () {
-            Logger::connect();
+            \Michnhokn\Logger::connect();
         },
         '*:after' => function (\Kirby\Cms\Event $event) {
-            Logger::log($event);
+            \Michnhokn\Logger::log($event);
         },
     ],
     'api' => [
@@ -17,7 +45,7 @@ require_once __DIR__ . '/src/Logger.php';
                 'pattern' => 'logs.json',
                 'method' => 'POST',
                 'action' => function () {
-                    return Logger::logs(
+                    return \Michnhokn\Logger::logs(
                         $this->requestBody('page', 1),
                         $this->requestBody('limit', 10),
                         $this->requestBody('filter', [])
@@ -29,7 +57,7 @@ require_once __DIR__ . '/src/Logger.php';
     'areas' => [
         'kirby3-logger' => function () {
             return [
-                'label' => 'Logger',
+                'label' => t('michnhokn.logger.title'),
                 'icon' => 'table',
                 'menu' => true,
                 'link' => 'logger',
@@ -39,7 +67,13 @@ require_once __DIR__ . '/src/Logger.php';
                         'action' => function () {
                             return [
                                 'component' => 'k-logger-area',
-                                'title' => 'Logs',
+                                'title' => t('michnhokn.logger.logs'),
+                                'props' => [
+                                    'userOptions' => \Michnhokn\Logger::options('user'),
+                                    'typeOptions' => \Michnhokn\Logger::options('type'),
+                                    'actionOptions' => \Michnhokn\Logger::options('action'),
+                                    'languageOptions' => \Michnhokn\Logger::options('language'),
+                                ],
                             ];
                         },
                     ],

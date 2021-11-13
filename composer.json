@@ -16,12 +16,19 @@
     "kirby3-plugin",
     "logger",
     "website-log",
-    "user-log"
+    "user-log",
+    "panel-log"
   ],
   "config": {
     "optimize-autoloader": true
   },
+  "autoload": {
+    "psr-4": {
+      "Michnhokn\\": "classes/"
+    }
+  },
   "require": {
+    "php": ">=8.0.0",
     "getkirby/composer-installer": "^1.1"
   }
 }

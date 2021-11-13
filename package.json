@@ -2,11 +2,5 @@
   "scripts": {
     "dev": "npx -y kirbyup src/index.js --watch",
     "build": "npx -y kirbyup src/index.js"
-  },
-  "dependencies": {
-    "fuse.js": "^6.4.6",
-    "vue-json-component": "^0.4.1",
-    "vue-json-pretty": "^1.8.2",
-    "vue-json-tree-view": "^2.1.6"
   }
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Michnhokn;
+
 class Log
 {
     private ?string $type;

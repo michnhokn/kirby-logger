@@ -1,88 +1,109 @@
 <template>
   <k-inside>
     <k-view class="k-logger-view">
-      <k-header>Logger</k-header>
-      <table v-if="logs" class="k-system-plugins">
-        <thead>
-        <tr>
-          <th>Timestamp</th>
-          <th>
-            <k-input v-model="filter.user"
-                     :options="userOptions"
-                     :class="{selected:filter.user!==''}"
-                     type="select"
-                     placeholder="User"
-                     icon="angle-down"/>
-          </th>
-          <th>
-            <k-input v-model="filter.type"
-                     :options="typeOptions"
-                     :class="{selected:filter.type!==''}"
-                     type="select"
-                     placeholder="Type"
-                     icon="angle-down"/>
-          </th>
-          <th>
-            <k-input v-model="filter.action"
-                     :options="actionOptions"
-                     :class="{selected:filter.action!==''}"
-                     type="select"
-                     placeholder="Action"
-                     icon="angle-down"/>
-          </th>
-          <th>
-            <k-input v-model="filter.slug"
-                     :options="slugOptions"
-                     :class="{selected:filter.slug!==''}"
-                     type="select"
-                     placeholder="Slug"
-                     icon="angle-down"/>
-          </th>
-          <th>
-            <k-input v-model="filter.language"
-                     :options="languageOptions"
-                     :class="{selected:filter.language!==''}"
-                     type="select"
-                     placeholder="Language"
-                     icon="angle-down"/>
-          </th>
-          <th>
-            <k-input v-model="filter.oldSearch"
-                     :class="{selected:filter.oldSearch!==''}"
-                     type="text"
-                     placeholder="Suche ..."
-                     icon="search"/>
-          </th>
-          <th>
-            <k-input v-model="filter.newSearch"
-                     :class="{selected:filter.newSearch!==''}"
-                     type="text"
-                     placeholder="Suche ..."
-                     icon="search"/>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="log in logs" :key="log.id">
-          <td>{{ log.timestamp }}</td>
-          <td>{{ log.user }}</td>
-          <td>{{ log.type }}</td>
-          <td>{{ log.action }}</td>
-          <td>{{ log.slug }}</td>
-          <td>{{ log.language }}</td>
-          <td>{{ log.oldData }}</td>
-          <td>{{ log.newData }}</td>
-        </tr>
-        </tbody>
-      </table>
-      <k-pagination
-          align="right"
-          :details="true"
-          :keys="true"
-          :page="page"
-          :limit="limit"
-          :total="total"
-          @paginate="paginate"/>
+      <k-header>
+        {{ $t('michnhokn.logger.title') }}
+        <k-button-group slot="left">
+          <k-button icon="refresh" @click="reset">{{ $t('michnhokn.logger.reset') }}</k-button>
+        </k-button-group>
+        <template slot="right">
+          <k-pagination
+              align="right"
+              :details="true"
+              :page="page"
+              :limit="limit"
+              :total="total"
+              @paginate="paginate"/>
+        </template>
+      </k-header>
+
+      <k-grid gutter="medium">
+        <k-column width="2/6">
+          <k-select-field v-model="filter.user"
+                          :options="userOptions"
+                          :label="$t('user')"
+                          type="select"
+                          icon="angle-down"/>
+        </k-column>
+        <k-column width="1/6">
+          <k-date-field v-model="filter.timestamp"
+                        display="YYYY-MM-DD"
+                        :label="$t('date')"
+                        :calendar="true"
+                        type="date"/>
+        </k-column>
+        <k-column width="1/6">
+          <k-select-field v-model="filter.type"
+                          :options="typeOptions"
+                          :label="$t('michnhokn.logger.type')"
+                          type="select"
+                          icon="angle-down"/>
+        </k-column>
+        <k-column width="1/6">
+          <k-select-field v-model="filter.action"
+                          :options="actionOptions"
+                          :label="$t('michnhokn.logger.action')"
+                          type="select"
+                          icon="angle-down"/>
+        </k-column>
+        <k-column width="1/6">
+          <k-select-field v-model="filter.language"
+                          :options="languageOptions"
+                          :label="$t('language')"
+                          type="select"
+                          icon="angle-down"/>
+        </k-column>
+        <k-column width="1/3">
+          <k-text-field v-model="filter.slug"
+                        type="text"
+                        :label="$t('michnhokn.logger.slug')"
+                        placeholder="Suche ..."
+                        icon="search"/>
+        </k-column>
+        <k-column width="1/3">
+          <k-text-field v-model="filter.oldSearch"
+                        type="text"
+                        :label="$t('michnhokn.logger.searchOld')"
+                        :placeholder="$t('search')"
+                        icon="search"/>
+        </k-column>
+        <k-column width="1/3">
+          <k-text-field v-model="filter.newSearch"
+                        type="text"
+                        :label="$t('michnhokn.logger.searchNew')"
+                        :placeholder="$t('search')"
+                        icon="search"/>
+        </k-column>
+        <k-column width="1/1" style="overflow: auto">
+          <table v-if="logs.length" class="k-system-plugins">
+            <thead>
+            <tr>
+              <th style="width: 175px">{{ $t('date') }}</th>
+              <th>{{ $t('user') }}</th>
+              <th style="width: 70px">{{ $t('michnhokn.logger.type') }}</th>
+              <th style="width: 140px">{{ $t('michnhokn.logger.action') }}</th>
+              <th>{{ $t('michnhokn.logger.slug') }}</th>
+              <th style="width: 90px">{{ $t('language') }}</th>
+              <th>{{ $t('michnhokn.logger.old') }}</th>
+              <th>{{ $t('michnhokn.logger.new') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="log in logs" :key="log.id">
+              <td>{{ log.timestamp }}</td>
+              <td>{{ log.user }}</td>
+              <td>{{ log.type }}</td>
+              <td>{{ log.action }}</td>
+              <td>{{ log.slug }}</td>
+              <td>{{ log.language }}</td>
+              <td>{{ log.oldData }}</td>
+              <td>{{ log.newData }}</td>
+            </tr>
+            </tbody>
+          </table>
+          <k-empty v-else icon="table" layout="cards">{{ $t('michnhokn.logger.empty') }}</k-empty>
+        </k-column>
+      </k-grid>
     </k-view>
   </k-inside>
 </template>
@@ -90,14 +111,15 @@
 <script>
 export default {
   name: 'LoggerArea',
-  // TODO: Get filter optios as props
+  props: ['userOptions', 'typeOptions', 'actionOptions', 'languageOptions'],
   data() {
     return {
       logs: [],
       total: 0,
       page: 1,
-      limit: 15,
+      limit: 10,
       filter: {
+        timestamp: '',
         oldSearch: '',
         newSearch: '',
         action: '',
@@ -123,7 +145,6 @@ export default {
     fetch(page = 1, limit = 10, filter = null) {
       return this.$api.post('logs.json', {page, limit, filter}).then((data) => {
         this.logs = data.logs;
-        console.log(this.logs);
         this.total = data.total;
       });
     },
@@ -133,50 +154,39 @@ export default {
       this.limit = limit;
       this.fetch(page, limit);
     },
-  },
-  computed: {
-    userOptions() {
-      const users = this.logs.map((log) => log.user);
-      const uniqueUsers = [...new Set(users)];
-      return uniqueUsers.map((user) => ({value: user, text: user}));
-    },
-    typeOptions() {
-      const types = this.logs.map((log) => log.type);
-      const uniqueTypes = [...new Set(types)];
-      return uniqueTypes.map((type) => ({value: type, text: type}));
-    },
-    actionOptions() {
-      const actions = this.logs.map((log) => log.action);
-      const uniqueActions = [...new Set(actions)];
-      return uniqueActions.map((action) => ({value: action, text: action}));
-    },
-    slugOptions() {
-      const slugs = this.logs.map((log) => log.slug);
-      const uniqueSlugs = [...new Set(slugs)];
-      return uniqueSlugs.map((slug) => ({value: slug, text: slug}));
-    },
-    languageOptions() {
-      const languages = this.logs.map((log) => log.language);
-      const uniquelanguages = [...new Set(languages)];
-      return uniquelanguages.map((language) => ({value: language, text: language}));
+
+    reset() {
+      this.filter = {
+        timestamp: '',
+        oldSearch: '',
+        newSearch: '',
+        action: '',
+        type: '',
+        user: '',
+        slug: '',
+        language: '',
+      };
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 table {
   width: 100%;
   border-collapse: collapse;
+  display: block;
+
+  @media screen and (min-width: 65em) {
+    display: table;
+  }
 
   td, th {
-    padding: 6px 12px;
-    text-align: left;
     border: 1px solid var(--color-border);
+    overflow: auto;
+    vertical-align: baseline;
+    text-overflow: unset;
+    white-space: normal;
   }
-}
-
-.selected {
-  font-weight: bold;
 }
 </style>
