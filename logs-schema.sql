@@ -1,12 +1,10 @@
-CREATE TABLE IF NOT EXISTS logs
+CREATE TABLE IF NOT EXISTS monolog
 (
-    id        INTEGER PRIMARY KEY,
-    type      TEXT NOT NULL,
-    action    TEXT NOT NULL,
-    user      TEXT NULL,
-    slug      TEXT NOT NULL,
-    language  TEXT NOT NULL,
-    oldData   TEXT NULL,
-    newData   TEXT NOT NULL,
-    timestamp TEXT NOT NULL DEFAULT current_timestamp
-);
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  channel    VARCHAR(255),
+  level      VARCHAR(255),
+  message    TEXT,
+  context    TEXT,
+  extra      TEXT,
+  created_at TEXT
+)

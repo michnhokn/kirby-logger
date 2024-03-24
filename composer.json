@@ -1,34 +1,31 @@
 {
-  "name": "michnhokn/kirby3-logger",
-  "description": "Add a logger to your Kirby3 website",
+  "name": "michnhokn/kirby-logger",
+  "description": "Add a logger to your Kirby website",
   "type": "kirby-plugin",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "license": "MIT",
   "authors": [
     {
-      "name": "Michael Scheurich",
-      "email": "support@michaelscheurich.dev"
+      "name": "Michael Engel",
+      "email": "support@michaelengel.dev"
     }
   ],
   "keywords": [
-    "kirby3",
-    "kirby3-cms",
-    "kirby3-plugin",
+    "kirby",
+    "kirby-plugin",
     "logger",
     "website-log",
     "user-log",
-    "panel-log"
+    "panel-log",
+    "monolog"
   ],
   "config": {
-    "optimize-autoloader": true
-  },
-  "autoload": {
-    "psr-4": {
-      "Michnhokn\\": "classes/"
+    "optimize-autoloader": true,
+    "allow-plugins": {
+      "getkirby/composer-installer": true
     }
   },
   "require": {
-    "php": ">=8.0.0",
     "getkirby/composer-installer": "^1.1"
   }
 }
