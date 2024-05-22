@@ -3,11 +3,19 @@
 use Michnhokn\Logger;
 
 return [
-    'kirby-logger' => function () {
+    'kirby-logger' => function ($kirby) {
+        $user = $kirby->user();
+
+        if ($user === null) {
+            return false;
+        }
+    
+        $permissions = $user->role()->permissions();
+    
         return [
             'label' => t('michnhokn.logger.label'),
             'icon' => 'file-search',
-            'menu' => true,
+            'menu' => $permissions->for('michnhokn.logger', 'access'),
             'link' => 'logger',
             'views' => [
                 [
